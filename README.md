@@ -11,3 +11,18 @@ The application should save the given inputs and should return the below reports
 3. Average temperature for a given start data and end date.
 
 The temperature outputs should always be in degree celsius.
+
+
+It is Contain three class files such as :
+ 
+ 1.) TemparatureReport:
+      In this class is used to perform all process like add temperatur report find Minimum and maximum and average value for given date.
+      
+ 2.) TemparatureProcessFlow:
+      This class to used to ask the questions to user and perform that operation like find average, min ,max  temperature of given date
+  
+ 3.) TemparatureMain:
+      This class to used to invoke the  TemparatureReport and TemparatureProcessFlow class
+      
+      >> Sample Process
+      
