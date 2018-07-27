@@ -106,13 +106,20 @@ namespace Temperature
                 // get multiple temperature values from user.
                 Console.WriteLine("Enter a date (e.g. 10/22/1987 or 7/22/1996 - MM/DD/YYYY): ");
                 string getDate = Convert.ToString(Console.ReadLine());
-                
-                Console.WriteLine("Enter Temperature VAlues \n Temperature Formate : 100F or 35C  like 23c,100f,36c,123F :");
-                string temperatureValues = Convert.ToString(Console.ReadLine());
-                string[] splitTemperatureValue = temperatureValues.Split(',');
-                string celciousData = TemperatureReport.splitAndConvertToCelcious(splitTemperatureValue);
-
                 string TempeartureDate = TemperatureReport.setDateForUserTemperatureEntry(getDate);
+                string[] splitTemperatureValue = new string[] { };
+                string celciousData = string.Empty;
+                if (TempeartureDate == "00/00/0000")
+                {
+                    askQuery();
+                }
+                else
+                {
+                    Console.WriteLine("Enter Temperature Values (Please Enter More Then One value) \nTemperature Formate : 100F or 35C  like 23c,100f,36c,123F :");
+                    string temperatureValues = Convert.ToString(Console.ReadLine());
+                    splitTemperatureValue = temperatureValues.Split(',');
+                    celciousData = TemperatureReport.splitAndConvertToCelcious(splitTemperatureValue);
+                }
                 dateAndTemp[0] = TempeartureDate;
                 dateAndTemp[1] = celciousData;
             }
@@ -134,15 +141,22 @@ namespace Temperature
             try
             {
                 string[] dateAndTemperature = getQueryForInsertDateWithTemperature();
-                if (TemperatureReport.addTemperatureDataToHashTable(dateAndTemperature) == true)
+                if (dateAndTemperature[0] != "00/00/0000")
                 {
-                    askQuery();
-                    status = true;
+                    if (TemperatureReport.addTemperatureDataToHashTable(dateAndTemperature) == true)
+                    {
+                        askQuery();
+                        status = true;
+                    }
+                    else
+                    {
+                        addTemperatureData();
+                        status = false;
+                    }
                 }
                 else
                 {
-                    addTemperatureData();
-                    status = false;
+                    getQueryForInsertDateWithTemperature();
                 }
             }
             catch (Exception dataNotStored)

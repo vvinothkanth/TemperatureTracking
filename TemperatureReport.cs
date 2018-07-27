@@ -120,7 +120,20 @@ namespace Temperature
             string returnDate = string.Empty;
             try
             {
-                returnDate = getDate;
+                string[] dat = getDate.Split('/');
+                int month = Convert.ToInt16(dat[0]);
+                int date = Convert.ToInt16(dat[1]);
+                int year = Convert.ToInt16(dat[2]);
+                if (month <= 0 || month > 12 || date <=0 || date >= 31 || year <=1900)
+                {
+                    Console.WriteLine("Date is Not In Correct Formate");
+                    returnDate = "00/00/0000";
+                }
+                else
+                {
+                    returnDate = getDate;
+                }
+                
             }
             catch (FormatException dateIsNotInRightFormate)
             {
@@ -201,6 +214,7 @@ namespace Temperature
             catch (Exception e)
             {
                 Console.WriteLine(e);
+                throw new Exception(e.Message);
             }
 
             return storeStatus;
