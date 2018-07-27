@@ -25,7 +25,7 @@ namespace Temperature
         /// <summary>
         /// The temperature Hashtable
         /// </summary>
-        public static Hashtable temperatureTable =new Hashtable();
+        public static Hashtable temperatureTable = new Hashtable();
 
         /// <summary>
         ///  To set and get Temperature datas
@@ -78,7 +78,7 @@ namespace Temperature
                     {
                         double farenheat = Convert.ToDouble(temperature.Trim('F').Trim('f'));
                         convertToCelcious = TemperatureReport.convertToCelcious(farenheat);
-                        if(listOfTemparatureValue == string.Empty || inputFromUser == splitedTemperatureValue.Length)
+                        if (listOfTemparatureValue == string.Empty || inputFromUser == splitedTemperatureValue.Length)
                         {
                             listOfTemparatureValue += convertToCelcious;
                         }
@@ -179,14 +179,14 @@ namespace Temperature
         public static bool addTemperatureDataToHashTable(string[] pareDate)
         {
             bool storeStatus = false;
-            
+
             try
             {
                 // if the date is already exsist to add the temperature value
                 if (TemperatureTable.ContainsKey(pareDate[0]))
                 {
                     string x = TemperatureTable[pareDate[0]].ToString();
-                    string ad = x + "," +pareDate[1];
+                    string ad = x + "," + pareDate[1];
                     TemperatureTable[pareDate[0]] = ad;
                     storeStatus = true;
                 }
@@ -198,7 +198,7 @@ namespace Temperature
                 }
                 Console.WriteLine("{0} : {1}", pareDate[0], TemperatureTable[pareDate[0]]);
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 Console.WriteLine(e);
             }
@@ -210,46 +210,28 @@ namespace Temperature
         /// To fetch the Minimum ro Maximum temprature for given date
         /// </summary>
         /// <param name="date">Required Date</param>
-        /// <param name="type">Min/Max</param>
-        /// <returns>Min or Max Value</returns>
-        public static string getMaximumTemperature(string date, string type)
+        /// <param name="type">Maximum Temperature</param>
+        /// <returns>Maximum Tempareture Value</returns>
+        public static string getMaximumTemperature(string date)
         {
-            string returnMinOrMax = string.Empty;
+            string returnMaximumTemparature = string.Empty;
             try
             {
                 if (TemperatureTable.ContainsKey(date))
                 {
                     string[] splitDataAsComma = TemperatureTable[date].ToString().Split(',');
                     Console.WriteLine("Temperatures In date of {1} : {0} / degree C", TemperatureTable[date].ToString(), date);
-                    
-                    if (type == "Max" || type == "max")
-                    {
-                        Array.Sort(splitDataAsComma);
-                        Array.Reverse(splitDataAsComma);
-                        Console.Write("Maximum Tempearture is:");
-
-                        return splitDataAsComma[0];
-                    }
-                    else if (type == "Min" || type == "min")
-                    {
-                        Array.Sort(splitDataAsComma);
-                        Console.Write("Minimum Tempearture is:");
-
-                        return splitDataAsComma[0];
-                    }
-                    else
-                    {
-                        Console.WriteLine("Wrong input ");
-                    }
-
-                    Console.ReadKey();
-                    TemperatureProcessFlow.askQuery();
+                    Array.Sort(splitDataAsComma);
+                    Array.Reverse(splitDataAsComma);
+                    Console.Write("Maximum Tempearture is:");
+                    return splitDataAsComma[0];
                 }
                 else
                 {
                     Console.WriteLine("Date Not Fount");
-                    TemperatureProcessFlow.askQuery();
                 }
+                Console.ReadKey();
+                TemperatureProcessFlow.askQuery();
 
             }
             catch (Exception exception)
@@ -257,7 +239,42 @@ namespace Temperature
                 Console.WriteLine(exception);
             }
 
-            return returnMinOrMax;
+            return returnMaximumTemparature;
+        }
+
+        /// <summary>
+        /// To fetch the Minimum temprature for given date
+        /// </summary>
+        /// <param name="date">Required Date</param>
+        /// <param name="type">Min</param>
+        /// <returns>Min Value</returns>
+        public static string getMinimumTemperature(string date)
+        {
+            string returnMinimumTemperature = string.Empty;
+            try
+            {
+                if (TemperatureTable.ContainsKey(date))
+                {
+                    string[] splitDataAsComma = TemperatureTable[date].ToString().Split(',');
+                    Console.WriteLine("Temperatures In date of {1} : {0} / degree C", TemperatureTable[date].ToString(), date);
+                    Array.Sort(splitDataAsComma);
+                    Console.Write("Minimum Tempearture is:");
+                    return splitDataAsComma[0];
+                }
+                else
+                {
+                    Console.WriteLine("Date Not Fount");
+                }
+                Console.ReadKey();
+                TemperatureProcessFlow.askQuery();
+
+            }
+            catch (Exception exception)
+            {
+                Console.WriteLine(exception);
+            }
+
+            return returnMinimumTemperature;
         }
 
         /// <summary>
@@ -266,7 +283,7 @@ namespace Temperature
         /// <param name="startDate">starting date</param>
         /// <param name="endDate">Ending Date</param>
         /// <returns>Average Temperature</returns>
-        public static double findAverageInBetweenTwoDate(string startDate,string endDate)
+        public static double findAverageInBetweenTwoDate(string startDate, string endDate)
         {
             double averageTemperature = 0.0;
             int totalTemperatureValue = 0;
@@ -278,7 +295,7 @@ namespace Temperature
                 var startingDate = new DateTime(Convert.ToInt16(start[2]), Convert.ToInt16(start[1]), Convert.ToInt16(start[0]));
                 var endingDate = new DateTime(Convert.ToInt16(end[2]), Convert.ToInt16(end[1]), Convert.ToInt16(end[0]));
 
-                var dateDifferenceBetweenTwoDate = (endingDate - startingDate).TotalDays; 
+                var dateDifferenceBetweenTwoDate = (endingDate - startingDate).TotalDays;
 
                 for (int i = 0; i <= dateDifferenceBetweenTwoDate; i++)
                 {
@@ -309,5 +326,5 @@ namespace Temperature
 
         }
 
-    }  
+    }
 }

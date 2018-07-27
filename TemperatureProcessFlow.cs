@@ -51,36 +51,40 @@ namespace Temperature
                             Console.WriteLine(k + ": " + TemperatureReport.TemperatureTable[k]);
                         }
 
-                        Console.WriteLine("\nIf you like to find Min/Max temperature Press (1) \nIf you like to find Average temperature between two Date Press (2)  :");
+                        Console.WriteLine("\nIf you like to find Min temperature Press (1) ");
+                        Console.WriteLine("\nIf you like to find Min temperature Press (2) ");
+                        Console.WriteLine("\nIf you like to find Average temperature between two Date Press (3)");
+
                         int avgOrMinMax = Convert.ToInt32(Console.ReadLine());
                         if (avgOrMinMax == 1)
                         {
-                            getMinMaxTempareture();
-                            Console.ReadKey();
-                            askQuery();
+                            getMinMaxTempareture("Min");
                         }
                         else if (avgOrMinMax == 2)
                         {
+                            getMinMaxTempareture("Max");
+                        }
+                        else if (avgOrMinMax == 3)
+                        {
                             getAverageTemperature();
-                            Console.ReadKey();
-                            askQuery();
                         }
                         else
                         {
                             Console.WriteLine("Wrong Input");
-                            askQuery();
                         }
                     }
                     else
                     {
-                        askQuery();
+                        Console.WriteLine("Wrong Input");
                     }
-                    Console.ReadKey();
                 }
                 else
                 {
-                    askQuery();
+                    Console.WriteLine("Wrong Input");
                 }
+
+                Console.ReadKey();
+                askQuery();
             }
             catch (Exception queryException)
             {
@@ -94,7 +98,7 @@ namespace Temperature
         /// return the date and temperature value to store in hashtable
         /// </summary>
         /// <returns>temperature values</returns>
-        public static string[] getQueryDateTemperature()
+        public static string[] getQueryForInsertDateWithTemperature()
         {
             string[] dateAndTemp = new string[2];
             try
@@ -129,7 +133,7 @@ namespace Temperature
             bool status = false;
             try
             {
-                string[] dateAndTemperature = getQueryDateTemperature();
+                string[] dateAndTemperature = getQueryForInsertDateWithTemperature();
                 if (TemperatureReport.addTemperatureDataToHashTable(dateAndTemperature) == true)
                 {
                     askQuery();
@@ -154,17 +158,23 @@ namespace Temperature
         /// Get date from the user and perform the operaiton of find min and max temparature
         /// </summary>
         /// <returns>return the operation true or not</returns>
-        public static bool getMinMaxTempareture()
+        public static bool getMinMaxTempareture(string type)
         {
             bool status = false;
 
             try
             {
+
                 Console.WriteLine("Enter Date  : Formate must be in (MM/DD/YYYY) eg. 12/30/2018");
                 string date = Convert.ToString(Console.ReadLine());
-                Console.WriteLine("Enter type Min / Max");
-                string type = Convert.ToString(Console.ReadLine());
-                Console.WriteLine("{0} Degree Celcious", TemperatureReport.getMaximumTemperature(date, type));
+                if (type == "Max")
+                {
+                    Console.WriteLine("{0} Degree Celcious", TemperatureReport.getMaximumTemperature(date));
+                }
+                else
+                {
+                    Console.WriteLine("{0} Degree Celcious", TemperatureReport.getMinimumTemperature(date));
+                }
                 Console.ReadKey();
                 askQuery();
                 status = true;
